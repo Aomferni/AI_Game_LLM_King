@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Memory Fragment Game</title>
+    <style>
+        /* 在这里添加你的CSS样式 */
+        body {
+            background-image: url('../imgs/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        #painting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+        }
+        #pocket {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+        }
+        #player {
+            position: absolute;
+            bottom: 50px; /* 可以根据需要调整 */
+            left: 50px;   /* 可以根据需要调整 */
+            width: 500px;   /* 可以根据需要调整 */
+            height: 500px;  /* 可以根据需要调整 */
+            /*background-color: rgb(247, 245, 245); /* 可以根据需要调整 */
+        }
+        .text-center {
+            position: absolute;
+            font-family: 'Times New Roman', Times, serif;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 54px;
+        }
+        #input-box {
+            position: absolute;
+            bottom: 50px;  /* 可以根据需要调整 */
+            left: 50%;     /* 可以根据需要调整 */
+            font-family: 'Times New Roman', Times, serif;
+            transform: translateX(-50%);  /* 可以根据需要调整 */
+            width: 200px;   /* 可以根据需要调整 */
+            height: 50px;    /* 可以根据需要调整 */
+            border: 2px solid black;
+            border-radius: 10px; /* 新增边框圆角 */
+            background-color: #f0f0f0; /* 新增背景色 */
+        }
+        #match-result {
+            position: absolute;
+            bottom: 100px;  /* 可以根据需要调整 */
+            left: 50%;     /* 可以根据需要调整 */
+            transform: translateX(-50%);  /* 可以根据需要调整 */
+            width: 200px;   /* 可以根据需要调整 */
+            height: 50px;    /* 可以根据需要调整 */
+            border: 2px solid black;  /* 可以根据需要调整 */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <img id="painting" src="../imgs/player16.png" alt="Painting" onclick="showText()">
+    <img id="pocket" src="../imgs/package.png" alt="Pocket" title="包裹">
+    <img id="player" src="../imgs/player16.png" alt="player">
+    <div class="text-center">今日，我就要嫁为人妇</div>
+    <input type="text" id="input-box">  <!-- 这里是输入框 -->
+    <div id="match-result"></div> <!-- 这里显示匹配结果 -->
+    <script>
+        // 定义游戏角色和文字提示
+        var game = {text: "今日，我就要嫁为人妇"}; //游戏中的文字提示，可以根据实际需求修改。这里假设它就是"今日，我就要嫁为人妇"。
+        var playerText = document.querySelector('.text-center').innerText; //获取游戏中当前的文字提示。这应该是游戏中的一个动态变化的部分，这里我们假设它就是"今日，我就要嫁为人妇"。
+        var inputBox = document.getElementById('input-box'); //获取输入框元素。这将用于玩家输入信息。
+        var matchResult = document.getElementById('match-result'); //获取用于显示匹配结果的元素。这将用于显示是否匹配成功。
+    
+        // 监听输入框的输入事件
+        inputBox.addEventListener('input', function(event) {
+            // 如果输入框为空，则不进行任何操作
+            if(event.target.value === '') {
+                return;
+            }
+            // 检查输入框的值是否与游戏中的文字提示相同
+            if(event.target.value === game.text) {
+                // 如果相同，显示"闯关成功"，并将正中间的文字提示变为绿色
+                matchResult.style.display = 'block';
+                matchResult.innerText = '闯关成功！';
+                game.text = playerText; // 更新游戏中的文字提示为玩家输入的信息
+                event.target.value = ''; // 清空输入框
+            } else {
+                // 如果不同，显示"不匹配"，并隐藏匹配结果
+                matchResult.style.display = 'block';
+                matchResult.innerText = '不匹配！';
+            }
+        });
+    </script>
+</body>
+</html>
+
+<!-- 
+游戏MVP的功能描述：
+1. 显示虚化的 background.jpg 作为游戏背景，显示一个画框在窗口左上角，显示一个口袋在右下角
+2. 显示一个玩家,在左下角
+3. 显示一段文字在窗口正中间
+4. 显示一个输入框,在窗口正下方
+5. 玩家可在输入框输入信息,当输入框中输入的内容，与正中间的某些文字匹配时，将对应的文字变为绿色，
+6. 当玩家输入信息与正中间显示的文字完全相同时,弹窗显示"闯关成功"
+7. 玩家点击画框会出现文字提示——“舞蹈家”，并收藏成为文字的记忆碎片信息
+8. 玩家右上角有“心力”的数值提醒，每点击一次画面都会减少数值
+9. 玩家点击口袋，可打开碎片收藏窗口，查看文字的记忆碎片信息
+-->
