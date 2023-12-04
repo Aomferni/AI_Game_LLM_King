@@ -1,9 +1,10 @@
 # 调用千帆大模型能力
 import requests
 import json
+import keys
 
-API_KEY = "xxxx"
-SECRET_KEY = "gxxxx"
+API_KEY = keys.get_API_key()
+SECRET_KEY = keys.get_secret_key()
 
 """
 调用AI助手写一篇短篇小说，并输出结果。
@@ -24,17 +25,10 @@ def main():
         "messages": [
             {
                 "role": "user",
-                "content": "你好"
-            },
-            {
-                "role": "assistant",
-                "content": "你好，很高兴和你交流。有什么我可以帮助你的吗？"
-            },
-            {
-                "role": "user",
                 "content": "我想写一篇短篇小说，应该学习些什么内容"
             }
         ],
+        "system": "你是一个优秀的短篇小说家，且很擅长教授别人写短篇小说",
         "disable_search": False,
         "enable_citation": True
     })
