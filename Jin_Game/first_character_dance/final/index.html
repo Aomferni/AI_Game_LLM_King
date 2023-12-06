@@ -41,15 +41,16 @@
         <p>大婚现场</p>
       </div>
       <div class="slide-text">
-        <p id="大婚剧情">这是</p>
-        <p id="台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
+        <p id="大婚剧情">这是一场盛大的婚礼，外交官的小女儿与今年的状元郎喜结连理，然而你：</p>
+        <p id="大婚台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
         <div class="event-text"></div>
       </div>     
       <!-- <div class="menu item-container"><div class="inventory-box"><img src="imgs/bat.png" alt="bat" class="item" id="bat"></div></div> -->
     </div>
     <div id="日本酒会" class="step slide" data-x="1500">
       <div class="slide-text">
-        <p>在日本酒会上，第一次展示自己舞蹈的天赋</p>
+        <p>在日本酒会上，第一次展示自己舞蹈的天赋。</p>
+        <p>却引得父母大惊失色，身为大清外交官的女儿，怎能如此抛头露面，搔首弄姿</p>
         <div class="event-text"></div>
       </div>
     </div>
@@ -88,6 +89,17 @@
   var heartValue = 5;
   // 将数字插入到 HTML 中
   document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
+  // 监听点击事件
+  window.addEventListener('click', function() {
+    // 每次点击时消耗 heartValue
+    heartValue--;
+    // 将新的心力值插入到 HTML 中
+    document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
+    // 当心力值小于0时，进入马厩场景
+    if (heartValue < 0) {
+      impress().goto("马厩");
+    }
+  });
 </script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -123,7 +135,7 @@
     userInput.addEventListener("input", function() {
         // 获取用户输入
         var inputText = userInput.value;
-        var rightAnswer = document.getElementById("台词").textContent;
+        var rightAnswer = document.getElementById("大婚台词").textContent;
         
         // 进行答案验证或游戏逻辑判断
         if (inputText === rightAnswer) {

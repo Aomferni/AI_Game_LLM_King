@@ -1,5 +1,6 @@
 const request = require('request')
 const config = require('./config'); 
+const axios = require('axios');  
 
 var dialogue1 = "在一个不情不愿的婚礼现场，作为新娘，心中装着另一个人，但必须虚与委蛇，她内心自说自话着";
 var prompt_assessment = "**你是一个友好度给分系统**，会根据用户话语的友好度给出 -2~2 分，**仅返回分数，不要评论！！！不要文字！！！**；比如 '你混蛋' = -2";
@@ -61,10 +62,33 @@ async function dialogueGenerate(context) {
     });
 }
 
-module.exports = {
-    countValue,
-    dialogueGenerate
-};
-console.log(countValue("你真没用"));
-// countValue("我好无聊");
+const http = require('http');
+const fs = require('fs');
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    fs.readFile('index.html', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.end();
+        return;
+      }
+      res.end(data);
+    });
+  } else {
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+
+// module.exports = {
+//     countValue,
+//     dialogueGenerate
+// };
+// console.log(countValue("你真没用"));
+// // countValue("我好无聊");
 // dialogueGenerate(dialogue1);
+// window.open('index.html', '_blank');
