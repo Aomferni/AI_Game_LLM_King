@@ -1,3 +1,9 @@
+# 参考资料
+## impress.js
+1. https://www.jingege.wang/2021/10/31/impress-js-%e4%bd%bf%e7%94%a8%e6%95%99%e7%a8%8b/
+   1. 三个文件：impress.js（提供特效支持，核心库） + impress.css(样式支持) + index.html（幻灯片入口）
+
+# a
 ![Alt text](image.png)
 ![Alt text](image-1.png)
 

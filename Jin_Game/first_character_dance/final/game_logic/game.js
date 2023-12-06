@@ -117,7 +117,7 @@ game.slide = (function(){
       inventoryBox.classList.add("empty");
     }
     else{
-      inventoryBox.innerHTML = "<img src='"+item+".png' alt='"+item+"' class='item' id='"+item+"'>";
+      inventoryBox.innerHTML = "<img src='"+"../imgs/"+item+".png' alt='"+item+"' class='item' id='"+item+"'>";
       inventoryBox.classList.remove("empty");
     }
   };
@@ -161,7 +161,7 @@ game.playerInventory = (function(){
     for(var item in this.items){
       if(this.items[item] === true){
         inventoryBoxes[counter].classList.remove("empty");
-        inventoryBoxes[counter].innerHTML = "<img src='"+item+".png' alt='"+item+"' class='item' id='"+item+"'>";
+        inventoryBoxes[counter].innerHTML = "<img src='"+"../imgs/"+item+".png' alt='"+item+"' class='item' id='"+item+"'>";
       }
       counter = counter + 1;
     };

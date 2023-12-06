@@ -11,7 +11,7 @@
     e.dataTransfer.setData('text/html', this.innerHTML);
     var dragIcon = document.createElement('img');
     var imageName = this.firstChild.id;
-    dragIcon.src = imageName + '.png';
+    dragIcon.src = '../imgs/'+ imageName + '.png';
     e.dataTransfer.setDragImage(dragIcon, -10, 10);
   }
   function handleDragOver(e) {
