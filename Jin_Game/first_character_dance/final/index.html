@@ -42,7 +42,7 @@
       </div>
       <div class="slide-text">
         <p id="大婚剧情">这是一场盛大的婚礼，作为外交官的小女儿，与今年的状元郎喜结连理，热闹非凡，然而你：</p>
-        <p id="大婚台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
+        <p id="婚礼大堂-台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
         <div class="event-text"></div>
       </div>     
       <!-- <div class="menu item-container"><div class="inventory-box"><img src="imgs/bat.png" alt="bat" class="item" id="bat"></div></div> -->
@@ -54,6 +54,7 @@
       <div class="slide-text">
         <p>在日本酒会上，第一次展示自己舞蹈的天赋。</p>
         <p>却引得父母大惊失色，身为大清外交官的女儿，怎能如此抛头露面，搔首弄姿</p>
+        <p id="日本酒会-台词"></p>
         <p><a href='#巴黎歌剧院'>前往巴黎</a></p>
         <div class="event-text"></div>
       </div>
@@ -64,6 +65,7 @@
       </div>
       <div class="slide-text">
         <p id="巴黎剧情">整个歌剧院,巴黎,甚至整个世界的人,都为我着迷</p>
+        <p id="巴黎歌剧院-台词"></p>
         <div class="event-text"></div>
       </div>
       <!-- <div class="menu"><div class="inventory-box"><img src="imgs/dino.png" alt="dino" class="item" id="dino"></div></div> -->
@@ -75,6 +77,7 @@
       <div class="slide-text">
         <p>年仅13岁的翻译女官意气风发，众人无不赞叹</p>
         <p>虎父无犬女，如此自信而大方地挥洒才华，不愧是外交官的女儿</p>
+        <p id="翻译女官-台词"></p>
         <div class="event-text"></div>
       </div>
     </div>
@@ -84,6 +87,7 @@
       </div>
       <div class="slide-text">
         <p>一段角落里的爱情，原以为会永被封存，谁知天不遂人愿</p>
+        <p id="爱情-台词"></p>
         <div class="event-text"></div>
       </div>
     </div>
@@ -93,6 +97,7 @@
       </div>
       <div class="slide-text">
         <p>此时你的心力已经耗尽，四周的寒冷向你袭来，这个冬天似乎熬不过去了...</p>
+        <p id="马厩-台词"></p>
         <div class="event-text"></div>
       </div>
     </div>
@@ -105,13 +110,13 @@
   // 初始化心力值
   var heartValue = 5;
   // 将数字插入到 HTML 中
-  document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
+  document.getElementById("heart-value").innerHTML = "❤️心力值：" + heartValue;
   // 监听点击事件
   window.addEventListener('click', function() {
     // 每次点击时消耗 heartValue
     heartValue--;
     // 将新的心力值插入到 HTML 中
-    document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
+    document.getElementById("heart-value").innerHTML = "❤️心力值：" + heartValue;
     // 当心力值小于0时，进入马厩场景
     if (heartValue < 0) {
       impress().goto("马厩");
@@ -129,8 +134,16 @@
 <script src="game_logic/dragDrop.js"></script>
 
 <script>
+  // 获取输入框元素
+  var userInput = document.getElementById("input-box");  
+  var finishFirstPuzzle = false;
+  var countTime = 0;
+  var limitValue = 100;
+  var currentStep = '婚礼大堂';
+
   document.addEventListener('impress:stepenter', function(event) {
-    var currentStep = event.target;
+    currentStep = event.target;
+    countTime = 0;
     if (currentStep.id === '婚礼大堂') {
         document.body.style.backgroundImage = 'url("imgs/wedding.jpg")';
     } else if (currentStep.id === '巴黎歌剧院') {
@@ -142,60 +155,101 @@
     } else if (currentStep.id === '爱情') {
         document.body.style.backgroundImage = 'url("imgs/sword_dance.jpeg")';
     } else if (currentStep.id === '马厩') {
+      limitValue = 30;
       document.body.style.backgroundImage = 'url("imgs/hourse_place.jpeg")';
     }
+    var context= "迷糊之中，你无法明晰自己究竟身在何处，只听得" + currentStep.id + "，你似乎在听自己的内心自话着";
+    var elementId = currentStep.id + "-台词";
+    // console.log(context + "+ " + elementId);
+    updateContent( context , elementId);
   });
-</script>
 
-<script>
-  // 获取输入框元素
-  var userInput = document.getElementById("input-box");  
-  var finishFirstPuzzle = false;
-  console.log("怎么回事");
-  // 监听用户输入完成事件
+
   userInput.addEventListener("input", function() {
+    // 监听用户输入完成事件
     var inputText = userInput.value;
-    console.log(inputText);
-    console.log(finishFirstPuzzle);
+
     // 判断“完成第一次输入”的变量值
+    document.getElementById("游戏提示").textContent = "找找过去的自己吧";
     if (!finishFirstPuzzle) {
+      // console.log("countTime: " + countTime + " limitValue: " + limitValue);
       // 获取用户输入
-      var rightAnswer = document.getElementById("大婚台词").textContent;
-      
+      var rightAnswer = document.getElementById("婚礼大堂-台词").textContent;
       // 进行答案验证或游戏逻辑判断
       if (inputText === rightAnswer) {
           document.getElementById("游戏提示").textContent = "恭喜你，找到下一个线索";
-          document.getElementById("input-box").value = " ";
-          updateContent("在一个不情不愿的婚礼现场，作为新娘，心中装着另一个人，但必须虚与委蛇，她内心自说自话着");
+          clearInput();
           finishFirstPuzzle = true;
+          countTime = 100;
+          limitValue = 30;
       } else {
           document.getElementById("游戏提示").textContent = "再找找线索吧";
+          countTime++;
+      }
+      // // 获取当前的 slide
+      // var currentSlide = impress().activeStep;
+      // console.log(currentSlide);
+      if (countTime >= limitValue) {
+        clearInput();
+        countTime = 0;
+        if (currentStep.id === '婚礼大堂') {
+          updateContent("在一个不情不愿的婚礼现场，作为新娘，心中装着另一个人，但必须虚与委蛇，她内心自说自话着", "婚礼大堂-台词");
+        } else {
+          var context= "你无法明晰自己究竟身在何处，只模糊记得 " + currentStep.id + " 似乎与你有关，你在内心自话着";
+          var elementId = currentStep.id + "-台词";
+          // console.log(context + "+ " + elementId);
+          updateContent( context , elementId);
+        }
       }
     } else {
-      if (inputText === "我是谁") {
-        impress().goto("翻译女官");
-      } else if (inputText === "我喜欢谁") {
-        impress().goto("爱情");
-      } else if (inputText === "我喜欢什么") {
-        impress().goto("日本酒会");
-      } else if (inputText === "恢复心力") {
-        heartValue = 5;
+      countTime++;
+      console.log("countTime: " + countTime + " limitValue: " + limitValue);
+      // console.log(currentStep + "-台词");
+      switch(inputText) {
+        case "我是谁":
+          impress().goto("翻译女官");
+          clearInput();
+          break;
+        case "我爱谁":
+          impress().goto("爱情");
+          clearInput();
+          break;
+        case "我喜欢什么":
+          impress().goto("日本酒会");
+          clearInput();
+          break;
+        case "恢复心力":
+          clearInput();
+          heartValue = 5;
+          break;
+      }
+      if (countTime >= limitValue) {
+        coutTime = 0;
+        var context= "你无法明晰自己究竟身在何处，只模糊记得 " + currentStep.id + " 似乎与你有关，你在内心自话着";
+        var elementId = currentStep.id + "-台词";
+        // console.log(context + "+ " + elementId);
+        updateContent( context , elementId);
+        clearInput();
       }
     }
   });  
 </script>
 
 <script>
-  function updateContent(context) {
+  function updateContent(context, element) {
     var url = '/updateContent?context=' + context;
     // 发起请求调用接口
-    console.log(url);
+    // console.log(url);
     fetch(url)
       .then(response => response.text())
       .then(result => {
         // 将返回的结果更新到名为"大婚台词"的元素中
-        document.getElementById('大婚台词').innerHTML = result;
+        document.getElementById(element).innerHTML = result;
       });
+  }
+
+  function clearInput() {
+    document.getElementById("input-box").value = "";
   }
 </script>
 
