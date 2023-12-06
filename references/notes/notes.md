@@ -1,11 +1,25 @@
 # 参考资料
 ## impress.js
-1. https://www.jingege.wang/2021/10/31/impress-js-%e4%bd%bf%e7%94%a8%e6%95%99%e7%a8%8b/
+1. [impress.js使用指南](https://www.195440.com/1819)
    1. 三个文件：impress.js（提供特效支持，核心库） + impress.css(样式支持) + index.html（幻灯片入口）
+2. [一些在线例子](https://www.195440.com/1858)
+   1. http://scottcheng.github.io/revolutionary-css3/
+3. [官方示例在线看](http://static.runoob.com/assets/impress-demo/index.html)
+4. [impress.js 源码分析](https://segmentfault.com/a/1190000003018108)
+5. 
 
-# a
+## 千帆接口使用
+1. https://cloud.baidu.com/qianfandev/topic/267210
+
+
+# 魔改记录
+1. 找到源码里把上下左右切换幻灯片的代码给注释掉了，这样就可以让用户只能闯过一关又一关才能往下走剧情
+   ![Alt text](image-2.png)
+2. 
+
+
+# TODOs
 ![Alt text](image.png)
-![Alt text](image-1.png)
 
 在impress.js制作的故事书中加入打字游戏是一个有趣的想法。下面是一种可能的实现思路：
 

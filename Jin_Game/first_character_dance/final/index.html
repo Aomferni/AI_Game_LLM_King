@@ -22,66 +22,82 @@
   </ul>
 </div>
 
+<div class="game-hint">
+  <p id="游戏提示"></p>
+</div>
+
 <div id="heart-value">
   <h3>心力值:</h3>
 </div>
 
 <div id="玩家输入" class="player-input">
   <input type="text" id="input-box">  <!-- 这里是输入框 -->
+  <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
 </div>
-
 
 <div id="impress">
     <div id="婚礼大堂" class="step slide">
       <div class="back-ground">
         <p>大婚现场</p>
+      </div>
+      <div class="slide-text">
+        <p id="大婚剧情">这是</p>
+        <p id="台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
         <div class="event-text"></div>
-      </div>
-      <div class="dialogue">
-        <p><a href='#slide2'>FLIP</a> it.</p>
-        <p><a href='#slide3'>WAIT</a> for your dad, who is a scientist, to come home</p>
-      </div>
-      <div id="match-result"></div> <!-- 这里显示匹配结果 -->
-      <div class="menu item-container"><div class="inventory-box"><img src="imgs/bat.png" alt="bat" class="item" id="bat"></div></div>
-      <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
+      </div>     
+      <!-- <div class="menu item-container"><div class="inventory-box"><img src="imgs/bat.png" alt="bat" class="item" id="bat"></div></div> -->
     </div>
     <div id="日本酒会" class="step slide" data-x="1500">
       <div class="slide-text">
         <p>在日本酒会上，第一次展示自己舞蹈的天赋</p>
         <div class="event-text"></div>
       </div>
-      <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
     </div>
     <div id="巴黎歌剧院" class="step slide" data-x="-1500">
       <div class="slide-text">
         <p id="巴黎剧情">整个歌剧院,巴黎,甚至整个世界的人,都为我着迷</p>
         <div class="event-text"></div>
       </div>
-      <div class="menu"><div class="inventory-box"><img src="imgs/dino.png" alt="dino" class="item" id="dino"></div></div>
+      <!-- <div class="menu"><div class="inventory-box"><img src="imgs/dino.png" alt="dino" class="item" id="dino"></div></div> -->
     </div>
     <div id="翻译女官" class="step slide" data-y="-1500">
       <div class="slide-text">
         <p>意气风发, 年仅13岁就已能如此自信而大方地挥洒才华</p>
         <div class="event-text"></div>
       </div>
-      <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
     </div>
     <div id="爱情" class="step slide" data-y="1500">
       <div class="slide-text">
-        <p>她以为永远不会有人知道这段角落里的爱情</p>
+        <p>一段角落里的爱情</p>
         <div class="event-text"></div>
       </div>
-      <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
+    </div>
+    <div id="马厩" class="step slide" data-x=“1000” data-y=“1000” data-rotate-z=“90” data-perspective="1000">
+      <div class="slide-text">
+        <p>梦醒之际，马厩之中</p>
+        <div class="event-text"></div>
+      </div>
     </div>
 </div>
 
 <script src="impress.js"></script>
 <script>
-  impress().init({
-    keyboard: false,
-    space: false
-  });
+  impress().init();
 
+  // 初始化心力值
+  var heartValue = 5;
+  // 将数字插入到 HTML 中
+  document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>!window.jQuery && document.write('<script src="jquery-1.4.1.min.js"><\/script>')</script>
+<script src="jquery.raptorize.1.0.js"></script>
+
+<script src="game_logic/game.js"></script>
+<script src="game_logic/dragDrop.js"></script>
+
+<script>
   document.addEventListener('impress:stepenter', function(event) {
     var currentStep = event.target;
     if (currentStep.id === '婚礼大堂') {
@@ -94,36 +110,28 @@
         document.body.style.backgroundImage = 'url("imgs/palace.webp")';
     } else if (currentStep.id === '爱情') {
         document.body.style.backgroundImage = 'url("imgs/sword_dance.jpeg")';
+    } else if (currentStep.id === '马厩') {
+      document.body.style.backgroundImage = 'url("imgs/hourse_place.jpeg")';
     }
   });
 </script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script>!window.jQuery && document.write('<script src="jquery-1.4.1.min.js"><\/script>')</script>
-<script src="jquery.raptorize.1.0.js"></script>
-
-<script src="game_logic/game.js"></script>
-<script src="game_logic/dragDrop.js"></script>
-
 <script>
-  const qianfan = require('./qianfan');
-  const result = await qianfan.countValue("你真是个废物");
-  
-  document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space') {
-      event.preventDefault();
-    }
-  });
-  
-  var myText = result;
-  document.getElementById("巴黎剧情").innerHTML = myText;
-
-  // 假设这是你的数字变量
-  var heartValue = 5;
-  // 将数字插入到 HTML 中
-  document.getElementById("heart-value").innerHTML = "心力值：" + heartValue;
-
-
+  // 获取输入框元素
+  var userInput = document.getElementById("input-box");  
+    // 监听用户输入完成事件
+    userInput.addEventListener("input", function() {
+        // 获取用户输入
+        var inputText = userInput.value;
+        var rightAnswer = document.getElementById("台词").textContent;
+        
+        // 进行答案验证或游戏逻辑判断
+        if (inputText === rightAnswer) {
+            document.getElementById("游戏提示").textContent = "恭喜你，找到下一个线索";
+        } else {
+            document.getElementById("游戏提示").textContent = "再找找线索吧";
+        }
+  });  
 </script>
 
 </body>

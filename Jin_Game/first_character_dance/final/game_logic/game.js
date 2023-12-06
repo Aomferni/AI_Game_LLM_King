@@ -131,6 +131,7 @@ game.slide = (function(){
     currentSlide: currentSlide
   };
 })();
+
 game.playerInventory = (function(){
   var items = {
     bat: false
@@ -187,3 +188,8 @@ game.screen = (function(){
     draw: draw
   }
 })();
+
+game.prompts = {
+  "1953年，中国，一位女性老人倒在马厩中，四面透风，夜晚，凄凉",
+
+}

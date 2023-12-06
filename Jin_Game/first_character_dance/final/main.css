@@ -51,8 +51,8 @@ body {
 .impress-enabled .step.active { opacity: 1 }
 .slide {
     display: block;
-    width: 700px;
-    height: 600px;
+    width: 500px;
+    height: 400px;
     padding: 40px 60px;
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, .3);
@@ -62,11 +62,16 @@ body {
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 30px;
 }
-
 .back-ground {
   font-family: 'Times New Roman', Times, serif;
   color: rgb(2, 2, 2);
   font-size: 54px;
+  text-align: center; 
+}
+.game-hint {
+  font-family: 'Times New Roman', Times, serif;
+  color: rgb(248, 228, 228);
+  font-size: 24px;
   text-align: center; 
 }
 .dialogue {
@@ -93,20 +98,20 @@ body {
 .slide .slide-text{
   height: 450px;
 }
-.player-input{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.player-input {
   position: absolute;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 #input-box {
   width: 690px;
   height: 50px;
   border: 0.1px solid #ccc;
+  font-family: 'Times New Roman', Times, serif;
   border-radius: 5px;
   padding: 5px;
-  font-size: 36px;
+  font-size: 28px;
   margin: center;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.5);
