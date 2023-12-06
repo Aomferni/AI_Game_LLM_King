@@ -31,7 +31,7 @@
 </div>
 
 <div id="玩家输入" class="player-input">
-  <input type="text" id="input-box">  <!-- 这里是输入框 -->
+  <input type="text" id="input-box" placeholder="开启对话，探索游戏">  <!-- 这里是输入框 -->
   <div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>重新开始</a></div>
 </div>
 
@@ -48,13 +48,20 @@
       <!-- <div class="menu item-container"><div class="inventory-box"><img src="imgs/bat.png" alt="bat" class="item" id="bat"></div></div> -->
     </div>
     <div id="日本酒会" class="step slide" data-x="1500">
+      <div class="back-ground">
+        <p>酒会献舞</p>
+      </div>
       <div class="slide-text">
         <p>在日本酒会上，第一次展示自己舞蹈的天赋。</p>
         <p>却引得父母大惊失色，身为大清外交官的女儿，怎能如此抛头露面，搔首弄姿</p>
+        <p><a href='#巴黎歌剧院'>前往巴黎</a></p>
         <div class="event-text"></div>
       </div>
     </div>
     <div id="巴黎歌剧院" class="step slide" data-x="-1500">
+      <div class="back-ground">
+        <p>巴黎演出</p>
+      </div>
       <div class="slide-text">
         <p id="巴黎剧情">整个歌剧院,巴黎,甚至整个世界的人,都为我着迷</p>
         <div class="event-text"></div>
@@ -62,20 +69,30 @@
       <!-- <div class="menu"><div class="inventory-box"><img src="imgs/dino.png" alt="dino" class="item" id="dino"></div></div> -->
     </div>
     <div id="翻译女官" class="step slide" data-y="-1500">
+      <div class="back-ground">
+        <p>皇宫大殿</p>
+      </div>
       <div class="slide-text">
-        <p>意气风发, 年仅13岁就已能如此自信而大方地挥洒才华</p>
+        <p>年仅13岁的翻译女官意气风发，众人无不赞叹</p>
+        <p>虎父无犬女，如此自信而大方地挥洒才华，不愧是外交官的女儿</p>
         <div class="event-text"></div>
       </div>
     </div>
     <div id="爱情" class="step slide" data-y="1500">
+      <div class="back-ground">
+        <p>深宫密恋</p>
+      </div>
       <div class="slide-text">
-        <p>一段角落里的爱情</p>
+        <p>一段角落里的爱情，原以为会永被封存，谁知天不遂人愿</p>
         <div class="event-text"></div>
       </div>
     </div>
     <div id="马厩" class="step slide" data-x=“1000” data-y=“1000” data-rotate-z=“90” data-perspective="1000">
-      <div class="slide-text">
+      <div class="back-ground">
         <p>梦醒之际，马厩之中</p>
+      </div>
+      <div class="slide-text">
+        <p>此时你的心力已经耗尽，四周的寒冷向你袭来，这个冬天似乎熬不过去了...</p>
         <div class="event-text"></div>
       </div>
     </div>
@@ -98,6 +115,8 @@
     // 当心力值小于0时，进入马厩场景
     if (heartValue < 0) {
       impress().goto("马厩");
+      document.getElementById("游戏提示").textContent = "不如重新来过";
+      document.getElementById("游戏提示").style.fontSize = "36px";
     }
   });
 </script>
@@ -131,26 +150,47 @@
 <script>
   // 获取输入框元素
   var userInput = document.getElementById("input-box");  
-    // 监听用户输入完成事件
-    userInput.addEventListener("input", function() {
-        // 获取用户输入
-        var inputText = userInput.value;
-        var rightAnswer = document.getElementById("大婚台词").textContent;
-        
-        // 进行答案验证或游戏逻辑判断
-        if (inputText === rightAnswer) {
-            document.getElementById("游戏提示").textContent = "恭喜你，找到下一个线索";
-            updateContent();
-        } else {
-            document.getElementById("游戏提示").textContent = "再找找线索吧";
-        }
+  var finishFirstPuzzle = false;
+  console.log("怎么回事");
+  // 监听用户输入完成事件
+  userInput.addEventListener("input", function() {
+    var inputText = userInput.value;
+    console.log(inputText);
+    console.log(finishFirstPuzzle);
+    // 判断“完成第一次输入”的变量值
+    if (!finishFirstPuzzle) {
+      // 获取用户输入
+      var rightAnswer = document.getElementById("大婚台词").textContent;
+      
+      // 进行答案验证或游戏逻辑判断
+      if (inputText === rightAnswer) {
+          document.getElementById("游戏提示").textContent = "恭喜你，找到下一个线索";
+          document.getElementById("input-box").value = " ";
+          updateContent("在一个不情不愿的婚礼现场，作为新娘，心中装着另一个人，但必须虚与委蛇，她内心自说自话着");
+          finishFirstPuzzle = true;
+      } else {
+          document.getElementById("游戏提示").textContent = "再找找线索吧";
+      }
+    } else {
+      if (inputText === "我是谁") {
+        impress().goto("翻译女官");
+      } else if (inputText === "我喜欢谁") {
+        impress().goto("爱情");
+      } else if (inputText === "我喜欢什么") {
+        impress().goto("日本酒会");
+      } else if (inputText === "恢复心力") {
+        heartValue = 5;
+      }
+    }
   });  
 </script>
 
 <script>
-  function updateContent() {
+  function updateContent(context) {
+    var url = '/updateContent?context=' + context;
     // 发起请求调用接口
-    fetch('/updateContent')
+    console.log(url);
+    fetch(url)
       .then(response => response.text())
       .then(result => {
         // 将返回的结果更新到名为"大婚台词"的元素中
