@@ -41,7 +41,7 @@
         <p>大婚现场</p>
       </div>
       <div class="slide-text">
-        <p id="大婚剧情">这是一场盛大的婚礼，外交官的小女儿与今年的状元郎喜结连理，然而你：</p>
+        <p id="大婚剧情">这是一场盛大的婚礼，作为外交官的小女儿，与今年的状元郎喜结连理，热闹非凡，然而你：</p>
         <p id="大婚台词">心愿难遂，情深难抚，此生此世，锁于无奈之中</p>
         <div class="event-text"></div>
       </div>     
@@ -140,10 +140,23 @@
         // 进行答案验证或游戏逻辑判断
         if (inputText === rightAnswer) {
             document.getElementById("游戏提示").textContent = "恭喜你，找到下一个线索";
+            updateContent();
         } else {
             document.getElementById("游戏提示").textContent = "再找找线索吧";
         }
   });  
+</script>
+
+<script>
+  function updateContent() {
+    // 发起请求调用接口
+    fetch('/updateContent')
+      .then(response => response.text())
+      .then(result => {
+        // 将返回的结果更新到名为"大婚台词"的元素中
+        document.getElementById('大婚台词').innerHTML = result;
+      });
+  }
 </script>
 
 </body>

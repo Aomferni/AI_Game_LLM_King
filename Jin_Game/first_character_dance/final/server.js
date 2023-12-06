@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
+const qianfan = require('./qianfan'); 
 
 const app = express();
 const port = 3000; // 您可以选择任何您喜欢的端口号
@@ -17,26 +18,22 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(impressJsPath, 'index.html')); // 假设您的入口文件为index.html
 });
 
-app.get('/modifyContent', async (req, res) => {
+app.get('/updateContent', async (req, res) => {
     try {
-      // 调用在线API
-      const response = await fetch('https://api.example.com/data');
-      const data = await response.json();
+      // 从请求中获取输入值
+    //   const context = req.query.context;
+      const context = "在一个不情不愿的婚礼现场，作为新娘，心中装着另一个人，但必须虚与委蛇，她内心自说自话着";
   
-      // 读取静态HTML文件
-      const filepath = path.join(__dirname, 'path_to_your_static_html_file');
-      const html = await readFile(filepath, 'utf8');
+      // 调用 dialogueGenerate 函数
+      qianfan.dialogueGenerate(context, function(result) {
+        // 将结果更新到名为"大婚台词"的元素
+        res.send(result);
+      });
   
-      // 使用cheerio库来修改HTML内容
-      const $ = cheerio.load(html);
-      $('#target-element').text(data.newContent);  // 将目标元素的内容修改为从API获取的新内容
-  
-      // 将修改后的HTML发送给浏览器
-      res.send($.html());
     } catch (err) {
-      res.status(500).send('Failed to modify content');
+      res.status(500).send('Failed to update content');
     }
-  });
+});
 
 // 启动服务器
 app.listen(port, () => {

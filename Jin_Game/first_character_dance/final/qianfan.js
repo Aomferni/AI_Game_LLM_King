@@ -56,33 +56,22 @@ async function dialogueGenerate(context) {
 
     };
 
+    // request(options, function (error, response) {
+    //     if (error) throw new Error(error);
+    //     console.log( JSON.parse(response.body).result);
+    // });
+    // 发起请求
     request(options, function (error, response) {
-        if (error) throw new Error(error);
-        console.log( JSON.parse(response.body).result);
+        if (error) {
+            // 如果出现错误，通过回调函数传递错误信息
+            callback(error, null);
+        } else {
+            // 如果请求成功，通过回调函数传递返回结果
+            const result = JSON.parse(response.body).result;
+            callback(null, result);
+        }
     });
 }
-
-const http = require('http');
-const fs = require('fs');
-
-const server = http.createServer((req, res) => {
-  if (req.url === '/') {
-    fs.readFile('index.html', 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-        res.end();
-        return;
-      }
-      res.end(data);
-    });
-  } else {
-    res.end();
-  }
-});
-
-server.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
 
 // module.exports = {
 //     countValue,
